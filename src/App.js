@@ -1,11 +1,38 @@
 import React, { Component } from "react";
 import Panel from "./Panel";
+import getWeb3 from './getWeb3';
+
 
 export class App extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            account: undefined
+        };
     }
+
+    async componentDidMount() {
+        this.web3 = await getWeb3();
+        console.log("Working with web3 version " + this.web3.version);
+        this.loadAccount();
+    }
+
+    async loadAccount() {
+        window.ethereum.enable().then((account) =>{
+            const defaultAccount = account[0]
+            console.log(defaultAccount);
+            this.setState({
+                account: defaultAccount.toLowerCase(),
+            }, () => {
+                load();
+            });
+        })
+     }
+
+     async load() {
+         
+     }
 
     render() {
         return <React.Fragment>
